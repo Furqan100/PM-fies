@@ -1,0 +1,6 @@
+
+              project controller
+              getAllProject()
+// $projects = Project::all();
+// $users = User::whereHas('projects')->get();
+// return view('components.projectLayout',compact('projects','users'));

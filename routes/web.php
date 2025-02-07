@@ -6,12 +6,13 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
 Route::get('/', function () {
     return view('home');
 });
 Route::get('/projects',[ProjectController::class,'getAllProject'])->name('projects.getAllProject');
 Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('projects.show');
-
+Route::post('/projects/store', [ProjectController::class, 'store'])->name('projects.store');
 // Login and Register Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

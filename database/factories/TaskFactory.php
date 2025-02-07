@@ -32,13 +32,10 @@ class TaskFactory extends Factory
         ];
         return [
         'project_id' => Project::inRandomOrder()->first()->id ?? Project::factory(),
-
         'name' => $this->faker->randomElement($taskNames),
         'description' => fake()->paragraph(),
-
         // Instead of creating a new user, use an existing one if available
         'assigned_to' => User::inRandomOrder()->first()->id ?? User::factory(),
-
         'status' => fake()->randomElement(['pending', 'in_progress', 'completed']),
 
         ];

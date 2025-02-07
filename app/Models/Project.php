@@ -9,10 +9,7 @@ class Project extends Model
 {
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory;
-    // public function showProjects(){
-    //     $project = Project::all();
-    //     echo $project->name;
-    // }
+    protected $fillable = ['name', 'description','due_date'];
     public function users(){
         return $this->belongsToMany(User::class);
     }
@@ -22,6 +19,6 @@ class Project extends Model
     }
     // public function creator()
     // {
-    //     return $this->belongsTo(User::class, 'created_by');
+    //     ``return $this->belongsTo(User::class, 'created_by');``
     // }
 }

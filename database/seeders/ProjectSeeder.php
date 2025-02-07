@@ -22,7 +22,7 @@ class ProjectSeeder extends Seeder
     $projects->each(function($project) use ($users) {
         // Randomly attach a few users to each project
         $project->users()->attach(
-            $users->random(2)->pluck('id')->toArray() // Attach 3 random users to each project
+            $users->random(2)->pluck('id')->toArray() 
         );
     });
 
