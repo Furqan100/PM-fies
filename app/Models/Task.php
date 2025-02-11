@@ -9,13 +9,15 @@ class Task extends Model
 {
     /** @use HasFactory<\Database\Factories\TaskFactory> */
     use HasFactory;
+    protected $fillable = ['title', 'description', 'status', 'due_date', 'project_id', 'user_id'];
+
     public function project()
     {
         return $this->belongsTo(Project::class);
     }
 
-    public function assignee()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'assigned_to');
+        return $this->belongsTo(User::class);
     }
 }

@@ -4,12 +4,12 @@ use App\Http\Controllers\AuthController;
 use App\Models\Project;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-Route::get('/', function () {
-    return view('home');
-});
+// Home Route
+Route::get('/', [ProjectController::class,'countUsers_Projects']);
 Route::get('/projects',[ProjectController::class,'getAllProject'])->name('projects.getAllProject');
 Route::get('/projects/{id}', [ProjectController::class, 'show'])->name('projects.show');
 Route::post('/projects/store', [ProjectController::class, 'store'])->name('projects.store');
@@ -24,4 +24,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/projects', [ProjectController::class, 'getAllProject'])->name('projects.getAllProject');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
+
+// Task Route
+Route::post('/tasks',[TaskController::class,'store'])->name('tasks.store');
+Route::get('/tasks',[TaskController::class,'store'])->name('tasks.store');
+Route::get('/tasks',[TaskController::class,'allTasks'])->name('tasks.allTasks');
+Route::post('/tasks/{task}/assign', [TaskController::class, 'assignTask'])->name('tasks.assign');
+
+// Route::get('/projects/{id}', [TaskController::class, 'showTask'])->name('projects.showTask');
+
 

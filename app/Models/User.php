@@ -21,7 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
+    public function isAdmin(){
+        return $this->is_admin;
+    }
     public function projects()
     {
         return $this->belongsToMany(Project::class);
@@ -29,7 +33,7 @@ class User extends Authenticatable
 
     public function tasks()
     {
-        return $this->hasMany(Task::class, 'assigned_to');
+        return $this->hasMany(Task::class, );
     }
     /**
      * The attributes that should be hidden for serialization.

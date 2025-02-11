@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -18,13 +19,23 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
         return view('components.show', compact('project'));
     }
+
+
+    // Checking if user is admin then only he can create the pproject
     public function create()
     {       $users = User::all();
+        if (!Auth::check() || !Auth::user()->is_admin) {
+            abort(403, 'Unauthorized action.');
+        }
+        // return view('projects.create');
         return view('projects.create',compact('users'));
     }
 
     public function store(Request $request)
     {
+        if (!Auth::check() || !Auth::user()->is_admin) {
+            abort(403, 'Unauthorized action.');
+        }
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -43,6 +54,11 @@ class ProjectController extends Controller
 
         return redirect()->route('projects.create')->with('success', 'Project created successfully.');
     }
-
+    // Using This for the purpose of Home Route
+   public function countUsers_Projects(){
+    $projectCount = Project::count();
+    $userCount =User::count();
+        return view('home',compact('projectCount','userCount'));
+   }
 
  }
