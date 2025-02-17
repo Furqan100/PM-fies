@@ -32,7 +32,7 @@
                 <label class="block text-gray-700 font-medium">Due Date</label>
                 <input type="date" name="due_date" class="w-full p-2 border rounded-lg">
             </div>
-            <div class="mb-4">
+            {{-- <div class="mb-4">
                 <label class="block text-gray-700 font-medium">Assign Users</label>
                 <div class="grid grid-cols-2 gap-2">
                     @foreach ($users as $user)
@@ -42,7 +42,7 @@
                         </label>
                     @endforeach
                 </div>
-            </div>
+            </div> --}}
 
 
             <div class="flex justify-between">

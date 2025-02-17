@@ -30,6 +30,10 @@ Route::post('/tasks',[TaskController::class,'store'])->name('tasks.store');
 Route::get('/tasks',[TaskController::class,'store'])->name('tasks.store');
 Route::get('/tasks',[TaskController::class,'allTasks'])->name('tasks.allTasks');
 Route::post('/tasks/{task}/assign', [TaskController::class, 'assignTask'])->name('tasks.assign');
+// Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
+Route::middleware('auth')->group(function () {
+    Route::patch('/tasks/{task}/updateStatus', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
+});
 
 // Route::get('/projects/{id}', [TaskController::class, 'showTask'])->name('projects.showTask');
 

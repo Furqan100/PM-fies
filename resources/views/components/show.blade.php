@@ -29,6 +29,9 @@
                 <label class="block text-gray-700 font-medium">Description</label>
                 <textarea name="description" class="w-full p-2 border rounded-lg"></textarea>
 
+                    <label class="block text-gray-700 font-medium">Due Date</label>
+                    <input type="date" name="due_date" class="w-full p-2 border rounded-lg">
+
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4">Add Task</button>
             </form>
             <h2 class="text-xl font-bold mt-6">Tasks for {{ $project->name }}</h2>
@@ -39,7 +42,7 @@
               <ul class="mt-4 space-y-2">
                @foreach ($project->tasks as $task)
                   <li class="p-4 bg-gray-800 text-white rounded-lg shadow">
-                   <strong>{{ $task->title }}</strong> - {{ $task->status }}
+                   <strong>{{ $task->title }}</strong> - {{ $task->status }} - {{ $task->due_date }}
                    </li>
                 @endforeach
                 </ul>

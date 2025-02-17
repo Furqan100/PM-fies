@@ -35,20 +35,20 @@ class UserFactory extends Factory
                "Raouf Ahmad"
 
     ];
-    static $usedNames = [];
+    // static $usedNames = [];
 
-    // Randomly pick a name from the remaining ones
-    $name = $this->faker->unique()->randomElement($users);
+    // // Randomly pick a name from the remaining ones
+    // $name = $this->faker->unique()->randomElement($users);
 
-    // Ensure the name is not repeated
-    while (in_array($name, $usedNames)) {
-        $name = $this->faker->unique()->randomElement($users);
-    }
+    // // Ensure the name is not repeated
+    // while (in_array($name, $usedNames)) {
+    //     $name = $this->faker->unique()->randomElement($users);
+    // }
 
-    // Add the picked name to the used names
-    $usedNames[] = $name;
+    // // Add the picked name to the used names
+    // $usedNames[] = $name;
         return [
-            'name' =>$name  ,
+            'name' =>$this->faker->randomElement($users)  ,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),

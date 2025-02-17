@@ -18,14 +18,11 @@ class ProjectFactory extends Factory
      */
     public function definition(): array
     {
-        $technicalNames = [
-            'NeuralSync', 'CodeFusion', 'DataPulse', 'QuantumFlow', 'AI Sentinel',
-            'CloudMorph', 'CyberNexus', 'ByteGrid', 'DevOps Alpha', 'AutomataX'
-        ];
+
         return [
 
             //
-            'name'=>$this->faker->randomElement($technicalNames),
+            'name'=>fake()->paragraph(),
             'description' => fake()->paragraph(),
             'due_date' => fake()->dateTimeBetween(Carbon::now(), Carbon::now()->addMonths(6))->format('Y-m-d H:i:s'),
 

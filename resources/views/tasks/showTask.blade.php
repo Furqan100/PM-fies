@@ -12,16 +12,39 @@
         <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">All Tasks</h1>
 
         @if(session('success'))
-            <div class="bg-green-500 text-white p-3 rounded-md mb-4 text-center">
+            <div id="success-message" class="bg-green-500 text-white p-3 rounded-md mb-4 text-center">
                 {{ session('success') }}
             </div>
         @endif
-
         @if(session('error'))
-            <div class="bg-red-500 text-white p-3 rounded-md mb-4 text-center">
+            <div id="error-message" class="bg-red-500 text-white p-3 rounded-md mb-4 text-center">
                 {{ session('error') }}
             </div>
         @endif
+        <script>
+          setTimeout(function() {
+            let successMessage = document.getElementById("success-message");
+            let errorMessage = document.getElementById('error-message');
+            if(successMessage){
+
+                successMessage.style.transition="opacity 0.5s";
+                successMessage.style.opacity="0";
+                setTimeout(() => successMessage.remove(), 500);
+            }
+          if(errorMessage){
+
+            errorMessage.style.transition="opacity 0.5s";
+            errorMessage.style.opacity="0";
+            setTimeout(() => errorMessage.remove(), 500);
+
+
+            }
+        },2000);
+
+
+        </script>
+
+
 
         <!-- Task Table -->
         <div class="overflow-x-auto bg-white shadow-md rounded-lg p-6">
@@ -40,12 +63,28 @@
                         <tr class="border-t">
                             <td class="px-4 py-2">{{ $task->title }}</td>
                             <td class="px-4 py-2">{{ $task->project->name }}</td>
-                            <td class="px-4 py-2">
-                                <span class="px-3 py-1 rounded-full text-sm
-                                    {{ $task->status == 'completed' ? 'bg-green-500 text-white' : 'bg-yellow-400 text-black' }}">
+                            <td class="px-4 py-2 flex items-center space-x-2">
+                                <form action="{{ route('tasks.updateStatus', $task->id) }}" method="POST" class="flex items-center space-x-2">
+                                    @csrf
+                                    @method('PATCH')
+                                    @if($task->user_id ===  auth()->user()->id || auth()->user()->is_admin)
+                                    <select name="status" onchange="this.form.submit()"
+                                        class=" px-6 py-3   rounded-lg text-sm text-black border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="Pending" {{ $task->status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                        <option value="In Progress" {{ $task->status == 'In Progress' ? 'selected' : '' }}>In Progress</option>
+                                        <option value="Completed" {{ $task->status == 'Completed' ? 'selected' : '' }}>Completed</option>
+                                    </select>
+                                    @endif
+                                </form>
+
+                                <!-- Colored status badge aligned properly -->
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold text-white ml-2
+                                    {{ $task->status == 'Completed' ? 'bg-green-500' : ($task->status == 'In Progress' ? 'bg-blue-500' : 'bg-yellow-400 text-black') }}">
                                     {{ ucfirst($task->status) }}
                                 </span>
-                            </td>
+
+                                  </td>
+
                             <td class="px-4 py-2">
                                 <form action="{{ route('tasks.assign', $task->id) }}" method="POST">
                                     @csrf

@@ -13,22 +13,24 @@ use Illuminate\Support\Facades\Auth;
 class TaskController extends Controller
 {
     //
-public function store(Request $request){
-  $request->validate([
-    'title'=>'required',
-    'description'=>'nullable',
-    'project_id'=>'required|exists:projects,id',
+    public function store(Request $request){
+        $request->validate([
+          'title'=>'required',
+          'description'=>'nullable',
+          'project_id'=>'required|exists:projects,id',
+          'due_date'=>'nullable'
 
-  ]);
-  Task::create([
-    'project_id'=>$request->project_id,
-    'title'=>$request->title,
-    'description'=>$request->description,
-  ]);
-//   return redirect()->back()->with('success', 'Task added successfully.');
-  return redirect()->route('tasks.store')->with('success', 'Task created successfully.');
+        ]);
+        Task::create([
+          'title'=>$request->title,
+          'description'=>$request->description,
+          'project_id'=>$request->project_id,
+          'due_date'=>$request->due_date,
+        ]);
+        // return redirect()->back()->with('success', 'Task added successfully.');
+        return redirect()->route('tasks.store')->with('success', 'Task created successfully.');
 
-}
+      }
 public function allTasks(){
     $tasks = Task::with('project','user')->latest()->paginate(10); // Fetch tasks with project info
     $users = User::all();
@@ -59,4 +61,27 @@ public function assignTask(Request $request, $taskId)
 
     return redirect()->route('tasks.allTasks')->with('success', 'Task assigned successfully.');
 }
+public function updateStatus(Request $request, $taskId)
+{
+    // Find the task by its ID
+    $task = Task::findOrFail($taskId);
+
+    // Get the currently authenticated user
+    $user = Auth::user();
+
+    // Check if the authenticated user is the assigned user for the task
+    if ($task->user_id !== $user->id && !$user->is_admin) {
+        // If not, return an error or redirect with a message
+        return redirect()->route('tasks.allTasks')->with('error', 'You are not authorized to update this task.');
+    }
+
+    // If user is authorized, update the task status
+    $task->update([
+        'status' => $request->status,
+    ]);
+
+    // Redirect back with success message
+    return redirect()->route('tasks.allTasks')->with('success', 'Task status updated successfully!');
+}
+
 }
